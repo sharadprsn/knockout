@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>knockout section2</title>
+		<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+		<script type="text/javascript" src="../lib/jquery-1.8.1.js"></script>
+	</head>
+	<body>
+			<p>Hello : <input data-bind="value: textInput, valueUpdate: 'afterkeydown'"/></p>
+			<p> you have entered <span data-bind="text: textInput"></span></p>
+			<script type="text/javascript">
+				var viewModel={
+					textInput: ko.observable("world")
+				};
+				ko.applyBindings(viewModel);
+			</script>
+	</body>
+</html>

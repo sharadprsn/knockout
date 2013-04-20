@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+	<script type="text/javascript" src="../lib/json2.js"></script>
+</head>
+<body>
+
+	<div id="filterCondition">
+		<p>Name :: <input type="text" data-bind="value: filterCondition, valueUpdate: 'afterkeydown'"/> </p>
+	</div>
+	<div id="dataTable">
+		<table border="1">
+			<thead><tr><th>name</th><th>category</th><th>price</th></tr></thead>
+			<tbody data-bind="foreach: filtedArray">
+				<tr><td data-bind="text: name"></td><td data-bind="text: category">
+				</td><td data-bind="text: price"></td></tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<script type="text/javascript">
+		
+		
+		function Item(name,category,price,un){
+			var self = this;
+			self.name = ko.observable(name);
+			self.category = ko.observable(category);
+			self.price = ko.observable(price);
+			self.taxedPrice = ko.computed(function(){
+				return (self.price()*1.2).toFixed(2);
+			});
+		};
+		
+		ko.utils.stringStartsWith = function(string, startsWith) {
+		    string = string || "";
+		    if (startsWith.length > string.length) return false;
+		    return string.substring(0, startsWith.length) === startsWith;
+		};
+		
+		function ViewModel(){
+			var self = this;
+			var jsonFromServer = [{"name":"peach","category":"fruits","price":1},
+			                      {"name":"plum","category":"fruits","price":2},
+			                      {"name":"apple","category":"fruits","price":3},
+			                      {"name":"grapes","category":"fruits","price":4},
+			                      {"name":"coconut","category":"fruits","price":5},
+			                      {"name":"carrot","category":"fruits","price":6},
+			                      {"name":"radish","category":"fruits","price":7}];
+			
+			//var koJson = JSON.parse(jsonFromServer);
+			self.itemArray = ko.utils.arrayMap(jsonFromServer,function(item){
+				return new Item(item.name,item.category,item.price,item.un);
+			});
+
+			self.selectedName = ko.observable();
+			self.filterCondition = ko.observable();
+			
+			self.filtedArray = ko.computed(function(){
+				return ko.utils.arrayFilter(self.itemArray,function(item){
+					if(self.filterCondition() && self.filterCondition().length > 0){
+						return ko.utils.stringStartsWith(item.name.toLowerCase(), self.filterCondition()) ;
+					}else{
+						return self.itemArray;
+					}
+				});
+			},self);
+		};
+			ko.applyBindings(new ViewModel());
+			
+		
+	</script>
+</body>
+</html>

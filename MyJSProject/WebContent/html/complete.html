@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>complete DataFlow</title>
+	<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+</head>
+<body>
+	<div id="inputcontainer">
+		<p> Name: <input data-bind="value: person().name" type="text" required/></p>
+		<p> Team: <input data-bind="value: person().team"/></p>
+		<button data-bind="click: addEntry">Add</button>
+	</div>
+	<div id="dataTable">
+		<table border="1">
+			<thead>
+				<tr><th>name</th><th>team</th></tr>
+			</thead>
+			<tbody data-bind="foreach: personArray">
+			<tr><td data-bind="text: name"></td><td data-bind="text: team"></td></tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		function PersonModel(name,team) {
+			var self = this;
+			self.name = ko.observable(name);
+			self.team = ko.observable(team);
+		};
+		
+		function PersonViewModel(){
+			var self = this;
+			self.person = ko.observable(new PersonModel("sharad","ti"));
+			self.personArray = ko.observableArray([]);
+			self.addEntry = function(){
+				self.personArray.push(new PersonModel(self.person().name(),self.person().team()));
+				self.person(self.person().name(""),self.person().team(""))
+			};
+		};
+		
+		ko.applyBindings(new PersonViewModel());
+	</script>
+</body>
+</html>

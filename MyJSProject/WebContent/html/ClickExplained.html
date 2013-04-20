@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+</head>
+<body>
+	<div>
+		<ul data-bind="foreach: places">
+			<li>
+				<span data-bind="text: $data"></span>
+				<button data-bind="click: $parent.removePlace">Remove</button>
+			</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		function MyViewModel(){
+			var self = this;
+			self.places = ko.observableArray(['london','paris','tokiyo']);
+			self.removePlace = function(place){
+				self.places.remove(place);
+			};
+		}; 
+		ko.applyBindings(new MyViewModel());
+	</script>
+</body>
+</html>

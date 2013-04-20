@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+</head>
+<body>
+	<div id="mainContainer">
+		<!-- <input type="checkbox" data-bind="checked: true"> -->
+		<div data-bind="event: {mouseover: function(data,event){myFunction('sharad','prasoon')}}">
+			mouse over me
+		</div>
+			<div data-bind="visible: showMessage">
+				This is an important message.
+			</div>
+		
+	</div>
+	<script type="text/javascript">
+		function MyViewModel(){
+			var self = this;
+			self.showMessage = ko.observable(false);
+			self.enableDetails = function(){
+				self.showMessage(true);
+			};
+			self.disableDetails = function(){
+				self.showMessage(false);
+			};
+			self.myFunction = function(abc,xyz){
+				alert(abc+" "+xyz)
+			};
+		};
+		ko.applyBindings(new MyViewModel());
+	</script>
+</body>
+</html>

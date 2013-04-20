@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+</head>
+<body>
+	<button data-bind="click: tableData">show Data</button>
+	<div data-bind="visible: showDiv,html: details">
+		Hi
+	</div>
+	<script type="text/javascript">
+		function ViewModel(){
+			var self = this;
+			self.showDiv = ko.observable(0);// 0 is equivalent to false anything other than 0 is true
+			self.details = ko.observable();
+			self.tableData = function(){
+				if(self.showDiv() === 0){
+					self.showDiv(1);
+				}else{
+					self.showDiv(0);
+				}
+				
+			}
+		};
+		var viewModel = new ViewModel();
+		viewModel.details("<strong>hi how r u</strong>");
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

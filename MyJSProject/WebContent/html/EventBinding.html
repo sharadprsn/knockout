@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+</head>
+<body>
+	<div id="mainContainer">
+		<div data-bind="event: {mouseover: enableDetails,mouseout: disableDetails}">
+			mouse over me
+		</div>
+			<div data-bind="visible: showMessage">
+				This is an important message.
+			</div>
+		
+	</div>
+	<script type="text/javascript">
+		function MyViewModel(){
+			var self = this;
+			self.showMessage = ko.observable(false);
+			self.enableDetails = function(){
+				self.showMessage(true);
+			};
+			self.disableDetails = function(){
+				self.showMessage(false);
+			};
+		};
+		ko.applyBindings(new MyViewModel());
+	</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+	<script type="text/javascript" src="../lib/json2.js"></script>
+</head>
+<body>
+
+	<select data-bind="options: itemArray, 
+						optionsText: 'name' ,
+						value: selectedName" ></select>
+	<p>category::<span data-bind="text: selectedName()?selectedName().category:'None'"></span>
+	<p>price::<span data-bind="text: selectedName()?selectedName().price:'None'"></span>
+	<p>price with tax::<span data-bind="text: selectedName()?selectedName().taxedPrice:'None'"></span>
+	
+	<script type="text/javascript">
+		
+		
+		function Item(name,category,price,un){
+			var self = this;
+			self.name = ko.observable(name);
+			self.category = ko.observable(category);
+			self.price = ko.observable(price);
+			self.taxedPrice = ko.computed(function(){
+				return (self.price()*1.2).toFixed(2);
+			});
+		};
+		
+		function ViewModel(){
+			var self = this;
+			var jsonFromServer = [{"name":"peach","category":"fruits","price":1},
+			                      {"name":"plum","category":"fruits","price":2},
+			                      {"name":"apple","category":"fruits","price":3},
+			                      {"name":"grapes","category":"fruits","price":4},
+			                      {"name":"coconut","category":"fruits","price":5},
+			                      {"name":"carrot","category":"fruits","price":6},
+			                      {"name":"radish","category":"fruits","price":7}];
+			
+			//var koJson = JSON.parse(jsonFromServer);
+			self.itemArray = ko.utils.arrayMap(jsonFromServer,function(item){
+				return new Item(item.name,item.category,item.price,item.un);
+			});
+
+			self.selectedName = ko.observable();
+		
+		};
+		
+			ko.applyBindings(new ViewModel());
+			
+		
+	</script>
+</body>
+</html>
